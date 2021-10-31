@@ -3,7 +3,7 @@ public class Cache {
     int assoc;
     int blocksize;
     int num_sets;
-    Set[] sets;
+    CacheSet[] sets;
     long index_bits;
     long offset_bits;
     long tag_bits;
@@ -14,15 +14,29 @@ public class Cache {
     int writebacks;
     Cache child; // basically next level in heirarchy
 
-    public Cache(int size, int assoc, int blocksize, Cache child) {
+    public Cache(int size, int assoc, int blocksize, int repl_policy, Cache child) {
         this.size = size;
         this.assoc = assoc;
         this.blocksize = blocksize;
 
         num_sets = size/((assoc * blocksize));
-        sets = new Set[num_sets];
+        switch(repl_policy) {
+            case 0: // LRU
+                this.sets = new LRUSet[num_sets];
+                break;
+            default: // this shouldn't happen
+                break;
+        }
+        
         for(int i = 0; i < sets.length; i++) {
-            sets[i] = new Set(assoc, blocksize);
+            switch(repl_policy) {
+                case 0: // LRU
+                    sets[i] = new LRUSet(assoc, blocksize);
+                    break;
+                default: // this shouldn't happen
+                    break;
+            }
+            
         }
 
         index_bits = log2(num_sets);
@@ -48,13 +62,10 @@ public class Cache {
         Long tag =  ( address / (sets.length * blocksize));
         
         // check if the tag matches a tag in the set
-        Block block = sets[index].findValidBlock(tag);
+        Block block = sets[index].checkForHit(tag);
 
         // hit
         if(block != null) {
-            // update LRU of that block
-            sets[index].updateBlockLRU(block);
-
             // set dirty bit of that block to 1
             block.dirty = true;
             
@@ -74,7 +85,7 @@ public class Cache {
             // there were no invalid blocks. we must select a victim based
             // on the replacement policy
             if(victimBlock == null) {
-                victimBlock = sets[index].selectVictim(policy);
+                victimBlock = sets[index].selectVictim();
 
                 // if that block is dirty, we need to write it back
                 // to the next level of the cache
@@ -113,15 +124,10 @@ public class Cache {
         Long tag =  ( address / (sets.length * blocksize));
 
         // check if the tag matches a tag in the set
-        Block block = sets[index].findValidBlock(tag);
+        Block block = sets[index].checkForHit(tag);
 
-        // hit
-        if(block != null) {
-            // update LRU counter
-            sets[index].updateBlockLRU(block);
-        }
-        // miss
-        else {
+        // miss (nothing to do at cache level on a hit)
+        if(block == null)  {
             readmiss++;
 
             // 2 step process: 
@@ -132,7 +138,7 @@ public class Cache {
             // there were no invalid blocks. we must select a victim based
             // on the replacement policy
             if(victimBlock == null) {
-                victimBlock = sets[index].selectVictim(policy);
+                victimBlock = sets[index].selectVictim();
 
                 // if that block is dirty, we need to write it back
                 // to the next level of the cache
