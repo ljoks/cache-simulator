@@ -13,13 +13,13 @@ public class Block {
         valid = false;
     }
 
-    public void write(Long tag, int setLRUcounter) {
+    public void writeLRU(Long tag, int setLRUcounter) {
         this.tag = tag;
         valid = true;
         LRU_count = setLRUcounter;
     }
 
-    public void read(Long tag, int setLRUcounter) {
+    public void readLRU(Long tag, int setLRUcounter) {
         this.tag = tag;
         valid = true;
         LRU_count = setLRUcounter;

@@ -22,11 +22,11 @@ public class Set {
     }
 
     public void write(Block block, Long tag) {
-        block.write(tag, ++setLRUcounter);
+        block.writeLRU(tag, ++setLRUcounter);
     }
 
     public void read(Block block, Long tag) {
-        block.read(tag, ++setLRUcounter);
+        block.readLRU(tag, ++setLRUcounter);
     }
 
     public void updateBlockLRU(Block block) {
