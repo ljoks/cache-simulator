@@ -24,6 +24,9 @@ public class Cache {
             case 0: // LRU
                 this.sets = new LRUSet[num_sets];
                 break;
+            case 1: // PLRU
+                this.sets = new PLRUSet[num_sets];
+                break;
             default: // this shouldn't happen
                 break;
         }
@@ -32,6 +35,9 @@ public class Cache {
             switch(repl_policy) {
                 case 0: // LRU
                     sets[i] = new LRUSet(assoc, blocksize);
+                    break;
+                case 1:
+                    sets[i] = new PLRUSet(assoc, blocksize);
                     break;
                 default: // this shouldn't happen
                     break;
