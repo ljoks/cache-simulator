@@ -26,10 +26,10 @@ class sim_cache {
 		Cache L2 = null;
 		// L2_size greater than 0 indicates there is an L2 cache
 		if(L2_size > 0) {
-			L2 = new Cache(L2_size, L2_assoc, blocksize, null);
+			L2 = new Cache(L2_size, L2_assoc, blocksize, replacement_policy, null);
 		}
 
-		Cache L1 = new Cache(L1_size, L1_assoc, blocksize, L2);
+		Cache L1 = new Cache(L1_size, L1_assoc, blocksize, replacement_policy, L2);
 
 		// read input file line by line
 		try {
@@ -76,8 +76,8 @@ class sim_cache {
 				w.write("===== L1 contents =====\n");
 				for(int i = 0; i < L1.sets.length; i++) {
 					w.write("Set\t\t" + i + ":\t");
-					for(int j = 0; j < L1.sets[i].blocks.length; j++) {
-						w.write(Long.toHexString(L1.sets[i].blocks[j].tag) + " " + (L1.sets[i].blocks[j].dirty ? "D" : " ") + "\t");
+					for(int j = 0; j < L1.sets[i].getBlocks().length; j++) {
+						w.write(Long.toHexString(L1.sets[i].getBlocks()[j].tag) + " " + (L1.sets[i].getBlocks()[j].dirty ? "D" : " ") + "\t");
 					}
 					w.write("\n");
 				}
@@ -87,14 +87,14 @@ class sim_cache {
 					w.write("===== L2 contents =====\n");
 					for(int i = 0; i < L2.sets.length; i++) {
 						w.write("Set\t\t" + i + ":\t");
-						for(int j = 0; j < L2.sets[i].blocks.length; j++) {
-							w.write(Long.toHexString(L2.sets[i].blocks[j].tag) + " " + (L2.sets[i].blocks[j].dirty ? "D" : " ") + "\t");
+						for(int j = 0; j < L2.sets[i].getBlocks().length; j++) {
+							w.write(Long.toHexString(L2.sets[i].getBlocks()[j].tag) + " " + (L2.sets[i].getBlocks()[j].dirty ? "D" : " ") + "\t");
 						}
 						w.write("\n");
 					}
 				} else {
 					// prevent null pointer errors by instantiating dummy cache, just for output purposes
-					L2 = new Cache(1,1,1,null);
+					L2 = new Cache(1,1,1,0,null);
 				}
 
 				// calculate total memory traffic 
