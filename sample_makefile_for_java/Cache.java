@@ -24,6 +24,9 @@ public class Cache {
             case 0: // LRU
                 this.sets = new LRUSet[num_sets];
                 break;
+            case 1: // PLRU
+                this.sets = new PLRUSet[num_sets];
+                break;
             default: // this shouldn't happen
                 break;
         }
@@ -32,6 +35,9 @@ public class Cache {
             switch(repl_policy) {
                 case 0: // LRU
                     sets[i] = new LRUSet(assoc, blocksize);
+                    break;
+                case 1:
+                    sets[i] = new PLRUSet(assoc, blocksize);
                     break;
                 default: // this shouldn't happen
                     break;
@@ -50,7 +56,7 @@ public class Cache {
     }
 
     // attempt to write to cache
-    public void write(Long address, int policy) {
+    public void write(Long address) {
         // increment write counter i THINK? or should it be only if there's a hit
         writes++;
         // is the block in the cache
@@ -93,7 +99,7 @@ public class Cache {
                     writebacks++;
                     if(child != null) {
                         Long victimAddress = (victimBlock.tag * sets.length + index) * blocksize;
-                        child.write(victimAddress, policy);
+                        child.write(victimAddress);
                         
                     }
                     victimBlock.dirty = false;
@@ -107,7 +113,7 @@ public class Cache {
 
             // 2. bring in requested block from child by issuing read request
             if(child != null) {
-                child.read(address, policy);
+                child.read(address);
             }
             // either way fill yourself and "return to level above"
             sets[index].write(victimBlock, tag);
@@ -115,7 +121,7 @@ public class Cache {
         }
     }
 
-    public void read(Long address, int policy) {
+    public void read(Long address) {
         // increment number of reads
         reads++;
 
@@ -146,7 +152,7 @@ public class Cache {
                     writebacks++;
                     if(child != null) {
                         Long victimAddress = (victimBlock.tag * sets.length + index) * blocksize;
-                        child.write(victimAddress, policy);
+                        child.write(victimAddress);
                         
                     }
                     victimBlock.dirty = false;
@@ -160,7 +166,7 @@ public class Cache {
 
             // 2. bring in requested block from child by issuing read request
             if(child != null) {
-                child.read(address, policy);
+                child.read(address);
             }
             // otherwise fill yourself and "return to level above"
             sets[index].read(victimBlock, tag);

@@ -45,11 +45,11 @@ class sim_cache {
 				Long dec = Long.decode("0x" + tokens[1]);
 				// write to L1
 				if(tokens[0].equals("w")) {
-					L1.write(dec, replacement_policy);
+					L1.write(dec);
 				}
 				// read to L1
 				else {
-					L1.read(dec, replacement_policy);
+					L1.read(dec);
 				}
 
 				
@@ -59,10 +59,11 @@ class sim_cache {
 			try {
 				// generate replacement policy string
 				String rp = "LRU";
-				if(replacement_policy == 1) rp = "PLRU";
+				if(replacement_policy == 1) rp = "Pseudo-LRU";
 				else if(replacement_policy == 1) rp = "Optimal";
 
-				FileWriter w = new FileWriter("output.txt");
+				// FileWriter w = new FileWriter("output.txt");
+				FileWriter w = new FileWriter("outputplru.txt");
 				w.write("===== Simulator configuration =====\n");
 				w.write("BLOCKSIZE:\t\t\t\t" + blocksize + "\n");
 				w.write("L1_SIZE:\t\t\t\t" + L1_size + "\n");
@@ -77,7 +78,9 @@ class sim_cache {
 				for(int i = 0; i < L1.sets.length; i++) {
 					w.write("Set\t\t" + i + ":\t");
 					for(int j = 0; j < L1.sets[i].getBlocks().length; j++) {
-						w.write(Long.toHexString(L1.sets[i].getBlocks()[j].tag) + " " + (L1.sets[i].getBlocks()[j].dirty ? "D" : " ") + "\t");
+						if(L1.sets[i].getBlocks()[j].tag != null)
+							w.write(Long.toHexString(L1.sets[i].getBlocks()[j].tag) + " " + (L1.sets[i].getBlocks()[j].dirty ? "D" : " ") + "\t");
+						else w.write("null\t");
 					}
 					w.write("\n");
 				}
@@ -88,7 +91,9 @@ class sim_cache {
 					for(int i = 0; i < L2.sets.length; i++) {
 						w.write("Set\t\t" + i + ":\t");
 						for(int j = 0; j < L2.sets[i].getBlocks().length; j++) {
+							if(L2.sets[i].getBlocks()[j].tag != null)
 							w.write(Long.toHexString(L2.sets[i].getBlocks()[j].tag) + " " + (L2.sets[i].getBlocks()[j].dirty ? "D" : " ") + "\t");
+						else w.write("null\t");
 						}
 						w.write("\n");
 					}
