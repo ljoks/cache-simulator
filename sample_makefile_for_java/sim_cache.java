@@ -62,8 +62,7 @@ class sim_cache {
 				if(replacement_policy == 1) rp = "Pseudo-LRU";
 				else if(replacement_policy == 1) rp = "Optimal";
 
-				// FileWriter w = new FileWriter("output.txt");
-				FileWriter w = new FileWriter("outputplru.txt");
+				FileWriter w = new FileWriter("output.txt");
 				w.write("===== Simulator configuration =====\n");
 				w.write("BLOCKSIZE:\t\t\t\t" + blocksize + "\n");
 				w.write("L1_SIZE:\t\t\t\t" + L1_size + "\n");
