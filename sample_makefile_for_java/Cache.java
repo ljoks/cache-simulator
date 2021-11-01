@@ -56,7 +56,7 @@ public class Cache {
     }
 
     // attempt to write to cache
-    public void write(Long address, int policy) {
+    public void write(Long address) {
         // increment write counter i THINK? or should it be only if there's a hit
         writes++;
         // is the block in the cache
@@ -99,7 +99,7 @@ public class Cache {
                     writebacks++;
                     if(child != null) {
                         Long victimAddress = (victimBlock.tag * sets.length + index) * blocksize;
-                        child.write(victimAddress, policy);
+                        child.write(victimAddress);
                         
                     }
                     victimBlock.dirty = false;
@@ -113,7 +113,7 @@ public class Cache {
 
             // 2. bring in requested block from child by issuing read request
             if(child != null) {
-                child.read(address, policy);
+                child.read(address);
             }
             // either way fill yourself and "return to level above"
             sets[index].write(victimBlock, tag);
@@ -121,7 +121,7 @@ public class Cache {
         }
     }
 
-    public void read(Long address, int policy) {
+    public void read(Long address) {
         // increment number of reads
         reads++;
 
@@ -152,7 +152,7 @@ public class Cache {
                     writebacks++;
                     if(child != null) {
                         Long victimAddress = (victimBlock.tag * sets.length + index) * blocksize;
-                        child.write(victimAddress, policy);
+                        child.write(victimAddress);
                         
                     }
                     victimBlock.dirty = false;
@@ -166,7 +166,7 @@ public class Cache {
 
             // 2. bring in requested block from child by issuing read request
             if(child != null) {
-                child.read(address, policy);
+                child.read(address);
             }
             // otherwise fill yourself and "return to level above"
             sets[index].read(victimBlock, tag);
