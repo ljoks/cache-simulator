@@ -1,7 +1,5 @@
-public class LRUSet implements CacheSet {
-    int assoc;
-    int blocksize;
-    Block[] blocks;
+public class LRUSet extends CacheSet {
+
     int setLRUcounter;
 
     public LRUSet(int assoc, int blocksize){

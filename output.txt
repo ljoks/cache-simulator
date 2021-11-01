@@ -1,217 +1,56 @@
 ===== Simulator configuration =====
 BLOCKSIZE:				16
 L1_SIZE:				1024
-L1_ASSOC:				1
-L2_SIZE:				8192
-L2_ASSOC:				4
-REPLACEMENT POLICY:		LRU
+L1_ASSOC:				2
+L2_SIZE:				0
+L2_ASSOC:				0
+REPLACEMENT POLICY:		Optimal
 INCLUSION PROPERTY:		non-inclusive
-trace_file:				custom.txt
+trace_file:				vortex_trace.txt
 ===== L1 contents =====
-Set		0:	null	
-Set		1:	null	
-Set		2:	null	
-Set		3:	null	
-Set		4:	null	
-Set		5:	null	
-Set		6:	null	
-Set		7:	null	
-Set		8:	null	
-Set		9:	null	
-Set		10:	null	
-Set		11:	null	
-Set		12:	null	
-Set		13:	null	
-Set		14:	null	
-Set		15:	null	
-Set		16:	null	
-Set		17:	null	
-Set		18:	null	
-Set		19:	null	
-Set		20:	null	
-Set		21:	null	
-Set		22:	null	
-Set		23:	null	
-Set		24:	null	
-Set		25:	null	
-Set		26:	null	
-Set		27:	null	
-Set		28:	null	
-Set		29:	null	
-Set		30:	null	
-Set		31:	null	
-Set		32:	null	
-Set		33:	null	
-Set		34:	null	
-Set		35:	null	
-Set		36:	null	
-Set		37:	null	
-Set		38:	null	
-Set		39:	null	
-Set		40:	null	
-Set		41:	null	
-Set		42:	null	
-Set		43:	null	
-Set		44:	null	
-Set		45:	null	
-Set		46:	null	
-Set		47:	null	
-Set		48:	null	
-Set		49:	null	
-Set		50:	null	
-Set		51:	null	
-Set		52:	null	
-Set		53:	null	
-Set		54:	null	
-Set		55:	null	
-Set		56:	null	
-Set		57:	null	
-Set		58:	null	
-Set		59:	null	
-Set		60:	null	
-Set		61:	null	
-Set		62:	null	
-Set		63:	b D	
-===== L2 contents =====
-Set		0:	null	null	null	null	
-Set		1:	null	null	null	null	
-Set		2:	null	null	null	null	
-Set		3:	null	null	null	null	
-Set		4:	null	null	null	null	
-Set		5:	null	null	null	null	
-Set		6:	null	null	null	null	
-Set		7:	null	null	null	null	
-Set		8:	null	null	null	null	
-Set		9:	null	null	null	null	
-Set		10:	null	null	null	null	
-Set		11:	null	null	null	null	
-Set		12:	null	null	null	null	
-Set		13:	null	null	null	null	
-Set		14:	null	null	null	null	
-Set		15:	null	null	null	null	
-Set		16:	null	null	null	null	
-Set		17:	null	null	null	null	
-Set		18:	null	null	null	null	
-Set		19:	null	null	null	null	
-Set		20:	null	null	null	null	
-Set		21:	null	null	null	null	
-Set		22:	null	null	null	null	
-Set		23:	null	null	null	null	
-Set		24:	null	null	null	null	
-Set		25:	null	null	null	null	
-Set		26:	null	null	null	null	
-Set		27:	null	null	null	null	
-Set		28:	null	null	null	null	
-Set		29:	null	null	null	null	
-Set		30:	null	null	null	null	
-Set		31:	null	null	null	null	
-Set		32:	null	null	null	null	
-Set		33:	null	null	null	null	
-Set		34:	null	null	null	null	
-Set		35:	null	null	null	null	
-Set		36:	null	null	null	null	
-Set		37:	null	null	null	null	
-Set		38:	null	null	null	null	
-Set		39:	null	null	null	null	
-Set		40:	null	null	null	null	
-Set		41:	null	null	null	null	
-Set		42:	null	null	null	null	
-Set		43:	null	null	null	null	
-Set		44:	null	null	null	null	
-Set		45:	null	null	null	null	
-Set		46:	null	null	null	null	
-Set		47:	null	null	null	null	
-Set		48:	null	null	null	null	
-Set		49:	null	null	null	null	
-Set		50:	null	null	null	null	
-Set		51:	null	null	null	null	
-Set		52:	null	null	null	null	
-Set		53:	null	null	null	null	
-Set		54:	null	null	null	null	
-Set		55:	null	null	null	null	
-Set		56:	null	null	null	null	
-Set		57:	null	null	null	null	
-Set		58:	null	null	null	null	
-Set		59:	null	null	null	null	
-Set		60:	null	null	null	null	
-Set		61:	null	null	null	null	
-Set		62:	null	null	null	null	
-Set		63:	null	null	null	null	
-Set		64:	null	null	null	null	
-Set		65:	null	null	null	null	
-Set		66:	null	null	null	null	
-Set		67:	null	null	null	null	
-Set		68:	null	null	null	null	
-Set		69:	null	null	null	null	
-Set		70:	null	null	null	null	
-Set		71:	null	null	null	null	
-Set		72:	null	null	null	null	
-Set		73:	null	null	null	null	
-Set		74:	null	null	null	null	
-Set		75:	null	null	null	null	
-Set		76:	null	null	null	null	
-Set		77:	null	null	null	null	
-Set		78:	null	null	null	null	
-Set		79:	null	null	null	null	
-Set		80:	null	null	null	null	
-Set		81:	null	null	null	null	
-Set		82:	null	null	null	null	
-Set		83:	null	null	null	null	
-Set		84:	null	null	null	null	
-Set		85:	null	null	null	null	
-Set		86:	null	null	null	null	
-Set		87:	null	null	null	null	
-Set		88:	null	null	null	null	
-Set		89:	null	null	null	null	
-Set		90:	null	null	null	null	
-Set		91:	null	null	null	null	
-Set		92:	null	null	null	null	
-Set		93:	null	null	null	null	
-Set		94:	null	null	null	null	
-Set		95:	null	null	null	null	
-Set		96:	null	null	null	null	
-Set		97:	null	null	null	null	
-Set		98:	null	null	null	null	
-Set		99:	null	null	null	null	
-Set		100:	null	null	null	null	
-Set		101:	null	null	null	null	
-Set		102:	null	null	null	null	
-Set		103:	null	null	null	null	
-Set		104:	null	null	null	null	
-Set		105:	null	null	null	null	
-Set		106:	null	null	null	null	
-Set		107:	null	null	null	null	
-Set		108:	null	null	null	null	
-Set		109:	null	null	null	null	
-Set		110:	null	null	null	null	
-Set		111:	null	null	null	null	
-Set		112:	null	null	null	null	
-Set		113:	null	null	null	null	
-Set		114:	null	null	null	null	
-Set		115:	null	null	null	null	
-Set		116:	null	null	null	null	
-Set		117:	null	null	null	null	
-Set		118:	null	null	null	null	
-Set		119:	null	null	null	null	
-Set		120:	null	null	null	null	
-Set		121:	null	null	null	null	
-Set		122:	null	null	null	null	
-Set		123:	null	null	null	null	
-Set		124:	null	null	null	null	
-Set		125:	null	null	null	null	
-Set		126:	null	null	null	null	
-Set		127:	4  	5  	2  	3 D	
+Set		0:	200100 D	3d81a5 D	
+Set		1:	200100 D	3d81a4 D	
+Set		2:	200850 D	200104  	
+Set		3:	200191 D	3d81a4 D	
+Set		4:	3d81a4 D	2001e1 D	
+Set		5:	200191  	200100 D	
+Set		6:	200102 D	2008bc  	
+Set		7:	200231  	3d81a6  	
+Set		8:	3d81a5  	3d81a4 D	
+Set		9:	200700  	200bc6 D	
+Set		10:	20022f D	3d81a3 D	
+Set		11:	3d81a4 D	200bc6  	
+Set		12:	200191  	3d81a4 D	
+Set		13:	200191  	3d81a3 D	
+Set		14:	200802 D	20022e D	
+Set		15:	3d81a4 D	2001e0 D	
+Set		16:	200102 D	3d81a6  	
+Set		17:	3d81a3 D	200192  	
+Set		18:	200192  	3d81a2  	
+Set		19:	3d81a3 D	200102 D	
+Set		20:	200894 D	3d81a2  	
+Set		21:	20086e D	20022d  	
+Set		22:	200bc6  	200103 D	
+Set		23:	200103  	3d81a3  	
+Set		24:	3d81a7  	3d81a3  	
+Set		25:	200103  	200775 D	
+Set		26:	200893  	20022d  	
+Set		27:	2006cc  	200103  	
+Set		28:	3d81a5  	3d81a7 D	
+Set		29:	200736 D	200194  	
+Set		30:	200190  	200bb8  	
+Set		31:	3d819b D	200191  	
 ===== Simulation results (raw) =====
-a. number of L1 reads:			2
-b. number of L1 read misses:	2
-c. number of L1 writes: 		4
-d. number of L1 write misses:	4
-e. L1 miss rate:				1.000000
-f. number of L1 writebacks:		3
-g. number of L2 reads:			6
-h. number of L2 read misses:	6
-i. number of L2 writes:			3
+a. number of L1 reads:			70871
+b. number of L1 read misses:	24182
+c. number of L1 writes: 		29129
+d. number of L1 write misses:	13832
+e. L1 miss rate:				0.380140
+f. number of L1 writebacks:		16342
+g. number of L2 reads:			0
+h. number of L2 read misses:	0
+i. number of L2 writes:			0
 j. number of L2 write misses:	0
-k. L2 miss rate:				1.000000
-l. number of L2 writebacks:		2
-m. total memory traffic:		8
+k. L2 miss rate:				0
+l. number of L2 writebacks:		0
+m. total memory traffic:		54356

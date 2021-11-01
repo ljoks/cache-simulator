@@ -27,6 +27,9 @@ public class Cache {
             case 1: // PLRU
                 this.sets = new PLRUSet[num_sets];
                 break;
+            case 2: // optimal
+                this.sets = new OptimalSet[num_sets];
+                break;
             default: // this shouldn't happen
                 break;
         }
@@ -36,8 +39,11 @@ public class Cache {
                 case 0: // LRU
                     sets[i] = new LRUSet(assoc, blocksize);
                     break;
-                case 1:
+                case 1: // PLRU
                     sets[i] = new PLRUSet(assoc, blocksize);
+                    break;
+                case 2: // Optimal
+                    sets[i] = new OptimalSet(assoc, blocksize);
                     break;
                 default: // this shouldn't happen
                     break;

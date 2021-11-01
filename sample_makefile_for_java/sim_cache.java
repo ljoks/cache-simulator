@@ -35,7 +35,29 @@ class sim_cache {
 		try {
 			File trace = new File(args[7]);
 			Scanner scan = new Scanner(trace);	
+
+			// if replacement policy is optimal, we first preprocess addresses
+			if(replacement_policy == 2) {
+				while(scan.hasNextLine()) {
+
+					String instr = scan.nextLine();
+					String[] tokens = instr.split(" ");
+	
+					// convert hex to decimal
+					Long dec = Long.decode("0x" + tokens[1]);
+
+					int index = (int) (dec / blocksize) % L1.sets.length;
+					Long tag = (dec / (L1.sets.length * blocksize));
+
+					((OptimalSet) L1.sets[index]).addToAccessStream(tag);
+				}
+
+				((OptimalSet) L1.sets[20]).accessStream.forEach((tag) -> System.out.print(tag + " "));
+				System.out.println();
+				System.out.println(((OptimalSet) L1.sets[20]).accessStream.size());
+			}
 			
+			scan = new Scanner(trace);
 			while(scan.hasNextLine()) {
 
 				String instr = scan.nextLine();
@@ -60,7 +82,7 @@ class sim_cache {
 				// generate replacement policy string
 				String rp = "LRU";
 				if(replacement_policy == 1) rp = "Pseudo-LRU";
-				else if(replacement_policy == 1) rp = "Optimal";
+				else if(replacement_policy == 2) rp = "Optimal";
 
 				FileWriter w = new FileWriter("output.txt");
 				w.write("===== Simulator configuration =====\n");

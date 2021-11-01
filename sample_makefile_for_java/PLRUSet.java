@@ -1,7 +1,5 @@
-public class PLRUSet implements CacheSet {
-    int assoc;
-    int blocksize;
-    Block[] blocks;
+public class PLRUSet extends CacheSet {
+    
     // need something to represent the tree
     private byte[] plru_tree;
 
@@ -21,7 +19,7 @@ public class PLRUSet implements CacheSet {
     
     public void write(Block block, Long tag) {
         // replace block
-        block.readOrWritePLRU(tag);
+        block.readOrWrite(tag);
 
         // update plru tree path (if assoc > 1)
         if(this.plru_tree.length > 0) {
@@ -36,7 +34,7 @@ public class PLRUSet implements CacheSet {
 
     public void read(Block block, Long tag) {
         // replace block
-        block.readOrWritePLRU(tag);
+        block.readOrWrite(tag);
 
         // update plru tree path (if assoc > 1)
         if(this.plru_tree.length > 0) {
