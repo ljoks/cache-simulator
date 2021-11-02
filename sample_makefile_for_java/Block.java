@@ -25,8 +25,15 @@ public class Block {
         LRU_count = setLRUcounter;
     }
 
-    public void readOrWritePLRU(Long tag) {
+    public void readOrWrite(Long tag) {
         this.tag = tag;
         valid = true;
+    }
+
+    public boolean invalidate() {
+        this.valid = false;
+        boolean ret = this.dirty;
+        this.dirty = false;
+        return ret;
     }
 }
