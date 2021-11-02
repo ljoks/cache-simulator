@@ -48,8 +48,10 @@ public class LRUSet extends CacheSet {
 
     public Block findInvalidBlock() {
         // step one: search for invalid block
-        for(Block block : blocks) {
-            if(block.valid == false) return block;
+        for(int i = 0; i < blocks.length; i++) {
+            if(blocks[i].valid == false) {
+                return blocks[i];
+            }
         }
 
         return null;

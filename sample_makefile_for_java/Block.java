@@ -29,4 +29,11 @@ public class Block {
         this.tag = tag;
         valid = true;
     }
+
+    public boolean invalidate() {
+        this.valid = false;
+        boolean ret = this.dirty;
+        this.dirty = false;
+        return ret;
+    }
 }

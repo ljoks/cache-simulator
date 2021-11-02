@@ -16,7 +16,7 @@
             "request": "launch",
             "mainClass": "sim_cache",
             "projectName": "MachineProblem1_Fall2021_7a0e6b59",
-            "args": ["16", "1024", "2", "0", "0", "2", "0", "traces\\vortex_trace.txt"]
+            "args": ["16", "1024", "1", "8192", "4", "0", "1", "traces\\compress_trace.txt"]
         }
     ]
 }

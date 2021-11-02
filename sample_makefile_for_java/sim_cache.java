@@ -150,7 +150,6 @@ class sim_cache {
 			else memtraffic = L1.readmiss + L1.writemiss + L1.writebacks;
 			if(inclusion_property == 1){
 				memtraffic += L1.writebacksToMainMem;
-				System.out.println("Writebacks to main mem: " + L1.writebacksToMainMem);
 			} 
 
 

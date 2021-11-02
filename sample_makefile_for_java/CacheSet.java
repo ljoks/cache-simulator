@@ -15,10 +15,8 @@ public abstract class CacheSet {
     public Boolean invalidate(Long tag) {
         for(int i = 0; i < blocks.length; i++) {
             if(tag.equals(blocks[i].tag) && blocks[i].valid) {
-                blocks[i].valid = false;
                 // block was dirty. return true to write it back to main memory
-                if(blocks[i].dirty) return true;
-                else return false;
+                return blocks[i].invalidate();
             }
         }
 
