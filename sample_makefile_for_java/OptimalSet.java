@@ -2,7 +2,11 @@ import java.util.ArrayList;
 
 public class OptimalSet extends CacheSet {
 
+    // hold list of accesses that occur in this set
     ArrayList<Long> accessStream;
+    // hold whether the access at accessIndex is a read or write
+    ArrayList<Boolean> accessStreamWrite; 
+    // keep track of which accesses we have already completed during this simulation
     int accessIndex;
 
     public OptimalSet(int assoc, int blocksize) {
@@ -14,6 +18,7 @@ public class OptimalSet extends CacheSet {
         }
 
         accessStream = new ArrayList<Long>();
+        accessStreamWrite = new ArrayList<Boolean>();
         accessIndex = 0;
     }
 
@@ -88,8 +93,9 @@ public class OptimalSet extends CacheSet {
         return blocks;
     }
 
-    public void addToAccessStream(Long tag) {
+    public void addToAccessStream(Boolean write, Long tag) {
         accessStream.add(tag);
+        accessStreamWrite.add(write);
     }
     
 }

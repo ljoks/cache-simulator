@@ -12,9 +12,13 @@ public class Cache {
     int writes; 
     int writemiss;
     int writebacks;
+    int writebacksToMainMem;
+    int repl_policy;
+    int incl_policy;
     Cache child; // basically next level in heirarchy
+    Cache parent; // level above in heirarchy, necessary for inclusion policy
 
-    public Cache(int size, int assoc, int blocksize, int repl_policy, Cache child) {
+    public Cache(int size, int assoc, int blocksize, int repl_policy, int incl_policy, Cache child) {
         this.size = size;
         this.assoc = assoc;
         this.blocksize = blocksize;
@@ -54,11 +58,14 @@ public class Cache {
         index_bits = log2(num_sets);
         offset_bits = log2(blocksize);
         tag_bits = 32 - index_bits - offset_bits;
-        reads = readmiss = writes = writemiss = 0;
+        reads = readmiss = writes = writemiss = writebacks = writebacksToMainMem = 0;
+        this.repl_policy = repl_policy;
+        this.incl_policy = incl_policy;
 
         if(child != null) {
             this.child = child;
         } else this.child = null;
+
     }
 
     // attempt to write to cache
@@ -66,7 +73,7 @@ public class Cache {
         // increment write counter i THINK? or should it be only if there's a hit
         writes++;
         // is the block in the cache
-        
+
         //get index
         int index = (int) (address / blocksize ) % sets.length;
 
@@ -114,12 +121,37 @@ public class Cache {
                 // not dirty. we don't need to write back. just invalidate it
                 else {
                     victimBlock.valid = false;
-                }    
+                }
+
+                // if inclusive policy and L2, we need to also invalidate the
+                // corresponding block in L1. If that L1 block is dirty,
+                // it will be written directly to main memory
+                if(incl_policy == 1 && child == null) {
+                    // if a block in L1 was invalidated,
+                    // increment writebacks because it was 
+                    // written directly back to main memory
+                    Long victimAddress = (victimBlock.tag * sets.length + index) * blocksize;
+                    parent.invalidate(victimAddress);
+                }
             }   
 
             // 2. bring in requested block from child by issuing read request
             if(child != null) {
-                child.read(address);
+                // if optimal policy, we have to write back the tag to an
+                // access stream for preprocessing
+                // then we will do the read later
+                if(repl_policy == 2) {
+                    // figure out the index for the child cache
+                    int childIndex = (int) (address / blocksize) % child.sets.length;
+                    // Long childTag = address / (child.sets.length * blocksize);
+
+                    ((OptimalSet) child.sets[childIndex]).addToAccessStream(true, address);
+
+                }
+                else{
+                    child.read(address);
+                }
+                
             }
             // either way fill yourself and "return to level above"
             sets[index].write(victimBlock, tag);
@@ -168,14 +200,48 @@ public class Cache {
                 else {
                     victimBlock.valid = false;
                 }    
+
+                // if inclusive policy and L2, we need to also invalidate the
+                // corresponding block in L1. If that L1 block is dirty,
+                // it will be written directly to main memory
+                if(incl_policy == 1 && child == null) {
+                    // System.out.println("Invalidating the corresponding block in L1 (read)");
+                    // if a block in L1 was invalidated,
+                    // increment writebacks because it was 
+                    // written directly back to main memory
+                    Long victimAddress = (victimBlock.tag * sets.length + index) * blocksize;
+                    parent.invalidate(victimAddress);
+                }
             }   
 
             // 2. bring in requested block from child by issuing read request
             if(child != null) {
-                child.read(address);
+                // if optimal policy, we have to write back the tag to an
+                // access stream for preprocessing
+                // then we will do the read later.
+                if(repl_policy == 2) {
+                    // figure out the index for the child cache
+                    int childIndex = (int) (address / blocksize) % child.sets.length;
+                    // Long childTag = address / (child.sets.length * blocksize);
+
+                    ((OptimalSet) child.sets[childIndex]).addToAccessStream(false, address);
+
+                }
+                else{
+                    child.read(address);
+                }
             }
             // otherwise fill yourself and "return to level above"
             sets[index].read(victimBlock, tag);
+        }
+    }
+
+    public void invalidate(Long address) {
+        int index = (int) (address / blocksize ) % sets.length;
+        Long tag =  ( address / (sets.length * blocksize));
+
+        if(sets[index].invalidate(tag)) {
+            writebacksToMainMem++;
         }
     }
 
